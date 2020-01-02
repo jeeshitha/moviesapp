@@ -37,4 +37,18 @@ public class MovieRatingController {
 
 		return response;
 	}
+	
+	@GetMapping("/ratedMovieCount/{userId}")
+	public ResponseEntity<Integer> getTotalNumberOfMoviesRated(@PathVariable String userId) {
+		
+		Optional<UserRating> result = userRatingRepository.findById(userId);
+		ResponseEntity<Integer> response = null;
+		System.out.println("result "+result);
+		if (result.isPresent()) 
+			response = new ResponseEntity<Integer>(result.get().getMovieRatings().size(), HttpStatus.OK);
+		else
+			response = new ResponseEntity<Integer>(HttpStatus.NOT_FOUND);
+
+		return response;
+	}
 }
